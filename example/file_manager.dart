@@ -24,19 +24,23 @@ class _FileAppState extends State<FileApp> {
 class Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        HorizontalLine(
-          text: ' ',
-          ansiCodes: [
-            backgroundCyan,
-          ],
-        ),
-        Text(
-          'Flurses file manager',
-          ansiCodes: [backgroundCyan, white],
-        ),
-      ],
+    return SizedBox(
+      width: context.maxX,
+      height: 1,
+      child: Stack(
+        children: [
+          HorizontalLine(
+            text: ' ',
+            ansiCodes: [
+              backgroundCyan,
+            ],
+          ),
+          Text(
+            'Flurses file manager',
+            ansiCodes: [backgroundCyan, white],
+          ),
+        ],
+      ),
     );
   }
 }
