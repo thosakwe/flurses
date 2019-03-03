@@ -12,6 +12,13 @@ class BuildContext {
       {StreamController onRebuild})
       : _onRebuild = onRebuild;
 
+  BuildContext withSize({int x, int y, int maxX, int maxY}) {
+    return BuildContext(
+        sink, x ?? this.x, y ?? this.y, maxX ?? this.maxX, maxY ?? this.maxY,
+        onRebuild: _onRebuild)
+      .._hasMarkedRebuild = _hasMarkedRebuild;
+  }
+
   void clearScreen() {
     // Esc[2J
     sink.add([$esc, $lbracket, $2, $J]);

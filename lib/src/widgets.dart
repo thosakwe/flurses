@@ -5,7 +5,7 @@ abstract class RenderWidget implements Widget {
 
   const RenderWidget({this.key});
 
-  Point<int> get renderSize;
+  Point<int> computeRenderSize(BuildContext context);
 
   void build(BuildContext context);
 }

@@ -11,7 +11,7 @@ class Text extends RenderWidget {
   const Text(this.text, {Key key, this.ansiCodes: const []}) : super(key: key);
 
   @override
-  Point<int> get renderSize {
+  Point<int> computeRenderSize(BuildContext context) {
     var w = 0, h = 0;
     var lines = const LineSplitter().convert(text);
 
