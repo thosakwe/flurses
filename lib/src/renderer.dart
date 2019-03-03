@@ -41,17 +41,32 @@ class Renderer {
   BuildHistory renderUpdate(
       Widget widget, BuildHistory previous, BuildContext context) {
     // If the two widgets are "the same", then only render children.
-    if (widget.runtimeType == previous.runtimeType &&
+    if (widget.runtimeType == previous.widget.runtimeType &&
         widget.key == previous.widget.key) {
       // If there is no child, then return the previous state.
       if (previous.child == null) {
-        return previous;
+        // return previous;
+        return renderFresh(widget, context);
       } else {
         // Otherwise, return the previous state, BUT change the child
         // to the updated one.
-        var child =
-            renderUpdate(previous.child.widget, previous.child, context);
-        return previous..child = child;
+        Widget child;
+
+        if (widget is StatelessWidget)
+          child = _ensureNotNull(widget.build(context), widget);
+        else if (widget is StatefulWidget) {
+          // Reuse the previous state object.
+          var state = previous.state
+            .._context = context
+            .._widget = widget;
+          child = _ensureNotNull(state.build(context), state);
+        } else {
+          // Theoretically, we'll never reach this point.
+          throw ArgumentError.value(widget, 'widget',
+              'This type of Widget cannot be updated as though it had a child.');
+        }
+
+        return previous..child = renderUpdate(child, previous.child, context);
       }
     } else {
       // Otherwise, replace the old widget entirely with the new widget.
