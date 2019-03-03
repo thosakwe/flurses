@@ -1,4 +1,5 @@
 export 'async.dart';
+export 'builder.dart';
 export 'clear.dart';
 export 'column.dart';
 export 'line.dart';
