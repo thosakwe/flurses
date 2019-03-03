@@ -21,6 +21,16 @@ class BuildContext {
 
   Point<int> get size => Point(maxX - x, maxY - y);
 
+  void hideCursor() {
+    sink.write('\u{1b}[?25l');
+  }
+
+  void showCursor() {
+    sink.write('\u{1b}[?25h');
+  }
+
+  void moveTo(int x, int y) {}
+
   void clearScreen() {
     // Esc[2J
     sink.add([$esc, $lbracket, $2, $J]);

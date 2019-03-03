@@ -20,6 +20,7 @@ class HorizontalLine extends RenderWidget {
   void build(BuildContext context) {
     for (int x = context.x; x <= context.maxX; x++) {
       // Esc[Line;ColumnH
+      context.hideCursor();
       context.sink
         ..add([$esc, $lbracket])
         ..write(context.y)
@@ -27,6 +28,7 @@ class HorizontalLine extends RenderWidget {
         ..write(x)
         ..writeCharCode($H)
         ..write(wrapWith(text, ansiCodes));
+      context.showCursor();
     }
   }
 }
