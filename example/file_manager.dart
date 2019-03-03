@@ -15,7 +15,7 @@ class _FileAppState extends State<FileApp> {
     return Column(
       children: [
         Title(),
-        Clear(ansiCodes: [backgroundBlue]),
+        // Clear(ansiCodes: [backgroundBlue]),
       ],
     );
   }
@@ -36,7 +36,7 @@ class Title extends StatelessWidget {
             ],
           ),
           Text(
-            'Flurses file manager',
+            Directory.current.absolute.path,
             ansiCodes: [backgroundCyan, white],
           ),
         ],
