@@ -8,7 +8,7 @@ class Clear extends MultiChildRenderWidget {
   final Widget child;
   final Iterable<AnsiCode> ansiCodes;
 
-  Clear({@required this.child, this.ansiCodes: const []});
+  Clear({this.child, this.ansiCodes: const []});
 
   @override
   Point<int> computeRenderSize(BuildContext context) {
@@ -49,6 +49,6 @@ class Clear extends MultiChildRenderWidget {
       ..writeCharCode($semicolon)
       ..write(context.x)
       ..writeCharCode($H);
-    render(child, context);
+    if (child != null) render(child, context);
   }
 }

@@ -14,11 +14,27 @@ class _FileAppState extends State<FileApp> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Title(),
+        Clear(),
+      ],
+    );
+  }
+}
+
+class Title extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
         HorizontalLine(
-          text: HorizontalLine.heavy,
+          text: ' ',
           ansiCodes: [
             backgroundCyan,
           ],
+        ),
+        Text(
+          'Flurses file manager',
+          ansiCodes: [backgroundCyan, white],
         ),
       ],
     );

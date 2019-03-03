@@ -8,7 +8,23 @@ class Stack extends MultiChildRenderWidget {
 
   @override
   Point<int> computeRenderSize(BuildContext context) {
-    return context.size;
+    var w = 0, h = 0;
+
+    for (var child in children) {
+      var size = Point(context.maxX, context.maxY);
+
+      if (child is RenderWidget)
+        size = child.computeRenderSize(context);
+      else if (child is MultiChildRenderWidget)
+        size = child.computeRenderSize(context);
+
+      context = context.withSize(y: context.y + size.y);
+      // w = max(w, size.x);
+      w += size.x;
+      h += size.y;
+    }
+
+    return Point(w, h);
   }
 
   @override
