@@ -4,4 +4,5 @@ environment:
   sdk: ">=2.0.0 <3.0.0"
 dependencies:
   charcode: ^1.0.0
+  io: ^0.3.3
   meta: ^1.0.0

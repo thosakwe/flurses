@@ -1,10 +1,12 @@
 import 'package:charcode/ascii.dart';
+import 'package:io/ansi.dart';
 import 'package:flurses/flurses.dart';
 
 class Text extends RenderWidget {
   final String text;
+  final Iterable<AnsiCode> ansiCodes;
 
-  const Text(this.text, {Key key}) : super(key: key);
+  const Text(this.text, {Key key, this.ansiCodes: const []}) : super(key: key);
 
   @override
   void build(BuildContext context) {
@@ -15,6 +17,6 @@ class Text extends RenderWidget {
       ..writeCharCode($semicolon)
       ..write(context.x)
       ..writeCharCode($H)
-      ..write(text);
+      ..write(wrapWith(text, ansiCodes));
   }
 }
