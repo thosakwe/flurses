@@ -15,7 +15,7 @@ class _FileAppState extends State<FileApp> {
     return Column(
       children: [
         Title(),
-        Clear(),
+        Clear(ansiCodes: [backgroundBlue]),
       ],
     );
   }
