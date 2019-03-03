@@ -4,10 +4,11 @@ import 'package:flurses/flurses.dart';
 import 'package:io/ansi.dart';
 
 /// Clears the working area of the screen, using the given [ansiCodes].
-class Clear extends RenderWidget {
+class Clear extends MultiChildRenderWidget {
+  final Widget child;
   final Iterable<AnsiCode> ansiCodes;
 
-  Clear({this.ansiCodes: const []});
+  Clear({@required this.child, this.ansiCodes: const []});
 
   @override
   Point<int> computeRenderSize(BuildContext context) {
@@ -15,7 +16,7 @@ class Clear extends RenderWidget {
   }
 
   @override
-  void build(BuildContext context) {
+  void build(BuildContext context, render) {
     // context.sink.add([$esc, $lbracket]);
 
     // for (var code in ansiCodes) {
@@ -39,5 +40,15 @@ class Clear extends RenderWidget {
           ..write(wrapWith(' ', ansiCodes));
       }
     }
+
+    // Move back to the position, and draw the child.
+    // Esc[Line;ColumnH
+    context.sink
+      ..add([$esc, $lbracket])
+      ..write(context.y)
+      ..writeCharCode($semicolon)
+      ..write(context.x)
+      ..writeCharCode($H);
+    render(child, context);
   }
 }

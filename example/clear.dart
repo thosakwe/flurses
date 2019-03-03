@@ -4,9 +4,11 @@ import 'package:io/ansi.dart';
 main() {
   runApp(
     Clear(
-      ansiCodes: [
-        backgroundRed,
-      ],
+      ansiCodes: [backgroundRed],
+      child: Text(
+        'Hello, red world!',
+        ansiCodes: [backgroundRed, white],
+      ),
     ),
   );
 }
