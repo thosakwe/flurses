@@ -1,7 +1,8 @@
-import 'build_context.dart';
+import 'dart:io';
 import 'build_history.dart';
 import 'key.dart';
 import 'widget.dart';
+part 'build_context.dart';
 part 'widgets.dart';
 
 class Renderer {
