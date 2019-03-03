@@ -19,6 +19,8 @@ class BuildContext {
       .._hasMarkedRebuild = _hasMarkedRebuild;
   }
 
+  Point get size => Point(maxX - x, maxY - y);
+
   void clearScreen() {
     // Esc[2J
     sink.add([$esc, $lbracket, $2, $J]);
