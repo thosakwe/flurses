@@ -4,6 +4,11 @@ import 'package:charcode/ascii.dart';
 import 'package:io/ansi.dart';
 import 'package:flurses/flurses.dart';
 
+class Newline extends Text {
+  const Newline({Key key, Iterable<AnsiCode> ansiCodes: const []})
+      : super('\n', key: key, ansiCodes: ansiCodes);
+}
+
 class Text extends RenderWidget {
   final String text;
   final Iterable<AnsiCode> ansiCodes;

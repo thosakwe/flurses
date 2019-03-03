@@ -10,6 +10,17 @@ abstract class RenderWidget implements Widget {
   void build(BuildContext context);
 }
 
+abstract class MultiChildRenderWidget implements Widget {
+  final Key key;
+  final List<Widget> children;
+
+  const MultiChildRenderWidget({this.key, this.children});
+
+  Point<int> computeRenderSize(BuildContext context);
+
+  void build(BuildContext context, void Function(Widget, BuildContext) render);
+}
+
 abstract class StatelessWidget implements Widget {
   final Key key;
 
@@ -18,6 +29,7 @@ abstract class StatelessWidget implements Widget {
   Widget build(BuildContext context);
 }
 
+@immutable
 abstract class StatefulWidget extends Widget {
   final Key key;
 

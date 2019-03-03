@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:charcode/ascii.dart';
+import 'package:meta/meta.dart';
 import 'build_history.dart';
 import 'key.dart';
 import 'widget.dart';
@@ -33,6 +34,15 @@ class Renderer {
     } else if (widget is RenderWidget) {
       widget.build(context);
       return BuildHistory(widget);
+    } else if (widget is MultiChildRenderWidget) {
+      var renderChildren = <BuildHistory>[];
+      var render = (Widget w, BuildContext context) {
+        var history = renderFresh(w, context);
+        renderChildren.add(history);
+      };
+
+      widget.build(context, render);
+      return BuildHistory(widget)..children = renderChildren;
     } else {
       throw ArgumentError.value(
           widget, 'widget', 'Cannot render this type of Widget');
@@ -47,6 +57,10 @@ class Renderer {
       // If there is no child, then return the previous state.
       if (previous.child == null) {
         // return previous;
+        return renderFresh(widget, context);
+      } else if (previous.children != null) {
+        // This is a MultiChildRenderWidget.
+        // TODO: Handle updates
         return renderFresh(widget, context);
       } else {
         // Otherwise, return the previous state, BUT change the child
