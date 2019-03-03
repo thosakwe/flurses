@@ -15,8 +15,8 @@ main() {
             child: Text('Done.\n'),
           );
         } else {
-          return Progress(
-            text: Progress.darkShade,
+          return ProgressBar(
+            text: ProgressBar.darkShade,
             value: value,
             ansiCodes: [magenta],
           );

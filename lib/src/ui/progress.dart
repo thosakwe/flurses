@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flurses/flurses.dart';
 import 'package:io/ansi.dart';
 
-class Progress extends RenderWidget {
+class ProgressBar extends RenderWidget {
   static const String full = '\u{2588}',
       lightShade = '\u{2591}',
       mediumShade = '\u{2592}',
@@ -15,7 +15,7 @@ class Progress extends RenderWidget {
   final String text;
   final Iterable<AnsiCode> ansiCodes;
 
-  Progress(
+  ProgressBar(
       {@required this.value,
       this.height = 1,
       this.text = full,
