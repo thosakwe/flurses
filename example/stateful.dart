@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flurses/flurses.dart';
+import 'package:io/ansi.dart';
 
 main() => runApp(ClockApp());
 
@@ -32,6 +33,9 @@ class _ClockAppState extends State<ClockApp> {
   @override
   Widget build(BuildContext context) {
     var now = DateTime.now();
-    return Text('The time is: $now');
+    return Text(
+      'The time is: $now',
+      ansiCodes: [backgroundGreen, white],
+    );
   }
 }
