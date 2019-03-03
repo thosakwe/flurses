@@ -1,3 +1,5 @@
+export 'dart:async' show Future;
+export 'package:meta/meta.dart' show required;
 export 'src/ui/ui.dart';
 export 'src/key.dart';
 export 'src/renderer.dart' hide Renderer;
