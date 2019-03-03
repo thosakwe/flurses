@@ -11,6 +11,24 @@ class StdinApp extends StatefulWidget {
 
 class _StdinAppState extends State<StdinApp> {
   var buf = StringBuffer();
+  StreamSubscription<int> _sub;
+
+  @override
+  void initState() {
+    super.initState();
+    stdin
+      ..echoMode = false
+      ..lineMode = false;
+    _sub = stdin.expand((l) => l).listen((ch) {
+      setState(() => buf.writeCharCode(ch));
+    });
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    _sub?.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
