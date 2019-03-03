@@ -9,18 +9,18 @@ main() {
       builder: (context, snapshot) {
         var len = snapshot.hasData ? snapshot.data.length : 0;
         var value = len / 10;
-
-        if (value == 1.0) {
-          return Clear(
-            child: Text('Done.\n'),
-          );
-        } else {
-          return ProgressBar(
-            text: ProgressBar.darkShade,
-            value: value,
-            ansiCodes: [magenta],
-          );
-        }
+        var text = 'Value=$value';
+        if (value == 1.0) text = 'Done.\n';
+        return Column(
+          children: [
+            Text(text),
+            ProgressBar(
+              text: ProgressBar.darkShade,
+              value: value,
+              ansiCodes: [green],
+            ),
+          ],
+        );
       },
     ),
   );
