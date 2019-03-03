@@ -9,7 +9,8 @@ class HorizontalLine extends RenderWidget {
   final String text;
   final Iterable<AnsiCode> ansiCodes;
 
-  HorizontalLine({this.text: light, this.ansiCodes: const []});
+  HorizontalLine({this.text: light, this.ansiCodes: const [], Key key})
+      : super(key: key);
 
   @override
   Point<int> computeRenderSize(BuildContext context) {
@@ -39,7 +40,8 @@ class VerticalLine extends RenderWidget {
   final String text;
   final Iterable<AnsiCode> ansiCodes;
 
-  VerticalLine({this.text: light, this.ansiCodes: const []});
+  VerticalLine({this.text: light, this.ansiCodes: const [], Key key})
+      : super(key: key);
 
   @override
   Point<int> computeRenderSize(BuildContext context) {
