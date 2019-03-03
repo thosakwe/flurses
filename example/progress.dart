@@ -10,7 +10,7 @@ main() {
         var len = snapshot.hasData ? snapshot.data.length : 0;
         var value = len / 10;
         var text = 'Value=$value';
-        if (value == 1.0) text = 'Done.\n';
+        if (value == 1.0) text = 'Done.........';
         return Column(
           children: [
             Text(text),
