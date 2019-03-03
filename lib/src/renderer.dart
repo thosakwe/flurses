@@ -20,7 +20,10 @@ class Renderer {
       var history = BuildHistory(widget);
       return history..child = renderFresh(result, context);
     } else if (widget is StatefulWidget) {
-      var state = widget.createState().._widget = widget;
+      var state = widget.createState()
+        .._context = context
+        .._widget = widget
+        ..initState();
       var result = _ensureNotNull(state.build(context), state);
       var history = BuildHistory(widget, state: state);
       return history..child = renderFresh(result, context);
