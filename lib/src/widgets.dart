@@ -37,4 +37,9 @@ abstract class State<T extends StatefulWidget> {
   void initState() {}
 
   void deactivate() {}
+
+  void setState(void Function() f) {
+    f();
+    context._triggerRebuild();
+  }
 }
