@@ -24,6 +24,9 @@ class Renderer {
       var result = _ensureNotNull(state.build(context), state);
       var history = BuildHistory(widget, state: state);
       return history..child = renderFresh(result, context);
+    } else if (widget is RenderWidget) {
+      widget.build(context);
+      return BuildHistory(widget);
     } else {
       throw ArgumentError.value(
           widget, 'widget', 'Cannot render this type of Widget');

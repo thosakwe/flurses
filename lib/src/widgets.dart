@@ -1,5 +1,13 @@
 part of 'renderer.dart';
 
+abstract class RenderWidget implements Widget {
+  final Key key;
+
+  const RenderWidget({this.key});
+
+  void build(BuildContext context);
+}
+
 abstract class StatelessWidget implements Widget {
   final Key key;
 
@@ -9,6 +17,10 @@ abstract class StatelessWidget implements Widget {
 }
 
 abstract class StatefulWidget extends Widget {
+  final Key key;
+
+  StatefulWidget({this.key});
+
   State createState();
 }
 
