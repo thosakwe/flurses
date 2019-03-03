@@ -2,26 +2,32 @@ import 'dart:io';
 import 'package:flurses/flurses.dart';
 import 'package:io/ansi.dart';
 
-main() {
+main() async {
   runApp(
-    Stack(
-      children: [
-        Clear(
-          ansiCodes: [backgroundRed],
-          child: Text(
-            '..............',
-            ansiCodes: [backgroundRed, white],
-          ),
-        ),
-        Text(
-          '!!',
-          ansiCodes: [
-            backgroundGreen,
-            white,
+    Builder(
+      builder: (context) {
+        context.hideCursor();
+        return Stack(
+          children: [
+            Clear(
+              ansiCodes: [backgroundRed],
+              child: Text(
+                '..............\nHit any key to exit.',
+                ansiCodes: [backgroundRed, white],
+              ),
+            ),
+            Text(
+              '!!',
+              ansiCodes: [
+                backgroundGreen,
+                white,
+              ],
+            ),
           ],
-        ),
-      ],
+        );
+      },
     ),
   );
-  stdin.listen(null);
+  stdin.lineMode = stdin.echoMode = false;
+  await stdin.expand((l) => l).first;
 }
