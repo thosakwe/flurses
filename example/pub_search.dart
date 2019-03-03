@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flurses/flurses.dart';
 import 'package:http/http.dart' as http;
+import 'package:io/ansi.dart';
 import 'package:io/io.dart';
 
 main() => runApp(PubSearchApp());
@@ -85,8 +86,16 @@ class _PubSearchAppState extends State<PubSearchApp> {
       case PubSearchState.errored:
         return Text('Could not find any package named "$query".');
       default:
-        return Text(
-            'The latest version of `package:$query` is $latestVersion.');
+        return Column(
+          children: [
+            HorizontalLine(),
+            Text(
+              'The latest version of `package:$query` is $latestVersion.',
+              ansiCodes: [blue, styleBold],
+            ),
+            HorizontalLine(),
+          ],
+        );
     }
   }
 }
