@@ -9,6 +9,7 @@ Future runApp(Widget app, {IOSink sink}) {
   var context = BuildContext(
       sink ?? stdout, 0, 0, stdout.terminalColumns, stdout.terminalLines,
       onRebuild: onRebuild);
+  context.clearScreen();
   var history = renderer.renderFresh(app, context);
 
   // This callback is only triggered once per build cycle.

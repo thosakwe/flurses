@@ -12,6 +12,11 @@ class BuildContext {
       {StreamController onRebuild})
       : _onRebuild = onRebuild;
 
+  void clearScreen() {
+    // Esc[2J
+    sink.add([$esc, $lbracket, $2, $J]);
+  }
+
   void _triggerRebuild() {
     if (!_hasMarkedRebuild) {
       _hasMarkedRebuild = true;
