@@ -13,7 +13,7 @@ class HorizontalLine extends RenderWidget {
 
   @override
   Point<int> computeRenderSize(BuildContext context) {
-    return context.size;
+    return Point(context.maxX, 1);
   }
 
   @override
@@ -41,7 +41,7 @@ class VerticalLine extends RenderWidget {
 
   @override
   Point<int> computeRenderSize(BuildContext context) {
-    return context.size;
+    return Point(1, context.maxY);
   }
 
   @override

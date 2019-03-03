@@ -19,7 +19,7 @@ class BuildContext {
       .._hasMarkedRebuild = _hasMarkedRebuild;
   }
 
-  Point get size => Point(maxX - x, maxY - y);
+  Point<int> get size => Point(maxX - x, maxY - y);
 
   void clearScreen() {
     // Esc[2J
