@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:math';
 import 'package:charcode/ascii.dart';
 import 'package:io/ansi.dart';
 import 'package:flurses/flurses.dart';
@@ -7,6 +9,19 @@ class Text extends RenderWidget {
   final Iterable<AnsiCode> ansiCodes;
 
   const Text(this.text, {Key key, this.ansiCodes: const []}) : super(key: key);
+
+  @override
+  Point<int> get renderSize {
+    var w = 0, h = 0;
+    var lines = const LineSplitter().convert(text);
+
+    for (var line in lines) {
+      w = max(w, line.length);
+      h++;
+    }
+
+    return Point(w, h);
+  }
 
   @override
   void build(BuildContext context) {
