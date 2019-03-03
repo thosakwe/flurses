@@ -1,8 +1,9 @@
-import 'build_context.dart';
-import 'widget.dart';
+part of 'renderer.dart';
 
 abstract class StatelessWidget implements Widget {
-  const StatelessWidget();
+  final Key key;
+
+  const StatelessWidget({this.key});
 
   Widget build(BuildContext context);
 }
@@ -12,5 +13,9 @@ abstract class StatefulWidget extends Widget {
 }
 
 abstract class State<T extends StatefulWidget> {
+  T _widget;
+
+  T get widget => _widget;
+
   Widget build(BuildContext context);
 }
