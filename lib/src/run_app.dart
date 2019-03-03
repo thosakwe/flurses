@@ -13,7 +13,11 @@ Future runApp(Widget app, {IOSink sink}) {
 
   // This callback is only triggered once per build cycle.
   onRebuild.stream.listen((_) {
-    print('Rebuild...');
+    // Rebuild the widget tree.
+    var context = BuildContext(
+        sink ?? stdout, 0, 0, stdout.terminalColumns, stdout.terminalLines,
+        onRebuild: onRebuild);
+    history = renderer.renderUpdate(app, history, context);
   });
 
   return onRebuild.done;
