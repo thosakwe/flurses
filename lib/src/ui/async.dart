@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flurses/flurses.dart';
 
 enum ConnectionState { active, none, waiting, done }
