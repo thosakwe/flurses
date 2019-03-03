@@ -29,7 +29,8 @@ class BuildContext {
     sink.write('\u{1b}[?25h');
   }
 
-  void moveTo(int x, int y) {}
+  void moveTo(int x, int y) {
+    sink.write('\u{1b}[$y;${x}H');}
 
   void clearScreen() {
     // Esc[2J
