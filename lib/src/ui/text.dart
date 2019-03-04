@@ -39,4 +39,20 @@ class Text extends RenderWidget {
       ..writeCharCode($H)
       ..write(wrapWith(text, ansiCodes));
   }
+
+  @override
+  void destroy(BuildContext context) {
+    var b = StringBuffer();
+    for (int i = 0; i < text.length; i++) {
+      b.write(' ');
+    }
+
+    context.sink
+      ..add([$esc, $lbracket])
+      ..write(context.y)
+      ..writeCharCode($semicolon)
+      ..write(context.x)
+      ..writeCharCode($H)
+      ..write(b.toString());
+  }
 }

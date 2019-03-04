@@ -28,15 +28,24 @@ class ProgressBar extends RenderWidget {
     return Point(context.size.x, height);
   }
 
-  @override
-  void build(BuildContext context) {
+  void _draw(BuildContext context, String t) {
     var extent = (context.size.x * value).round();
 
     for (int y = 0; y < height; y++) {
       var buf = StringBuffer();
       context.moveTo(context.x, context.y + y);
-      for (int x = 0; x < extent; x++) buf.write(text);
+      for (int x = 0; x < extent; x++) buf.write(t);
       context.sink.write(wrapWith(buf.toString(), ansiCodes));
     }
+  }
+
+  @override
+  void build(BuildContext context) {
+    _draw(context, text);
+  }
+
+  @override
+  void destroy(BuildContext context) {
+    _draw(context, ' ');
   }
 }

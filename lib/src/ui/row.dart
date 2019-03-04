@@ -40,4 +40,14 @@ class Row extends MultiChildRenderWidget {
       render(child, context);
     }
   }
+
+  @override
+  void destroy(BuildContext context) {
+    for (var child in children) {
+      if (child is RenderWidget)
+        child.destroy(context);
+      else if (child is MultiChildRenderWidget) child.destroy(context);
+      // TODO: How to destroy other children?
+    }
+  }
 }

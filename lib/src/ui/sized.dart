@@ -34,4 +34,13 @@ class SizedBox extends MultiChildRenderWidget {
         context.withSize(maxX: context.x + size.x, maxY: context.y + size.y);
     render(child, context);
   }
+
+  @override
+  void destroy(BuildContext context) {
+    var child = this.child;
+    if (child is RenderWidget)
+      child.destroy(context);
+    else if (child is MultiChildRenderWidget) child.destroy(context);
+    // TODO: How to destroy other children?
+  }
 }
