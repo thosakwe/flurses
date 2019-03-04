@@ -51,6 +51,7 @@ class Renderer {
 
   BuildHistory renderUpdate(
       Widget widget, BuildHistory previous, BuildContext context) {
+    var old = previous.widget;
     // If the two widgets are "the same", then only render children.
     if (widget.runtimeType == previous.widget.runtimeType &&
         widget.key == previous.widget.key) {
@@ -86,6 +87,9 @@ class Renderer {
     } else {
       // Otherwise, replace the old widget entirely with the new widget.
       previous.state?.deactivate();
+      if (old is RenderWidget)
+        old.destroy(context);
+      else if (old is MultiChildRenderWidget) old.destroy(context);
       return renderFresh(widget, context);
     }
   }

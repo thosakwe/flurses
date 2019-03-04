@@ -8,6 +8,8 @@ abstract class RenderWidget implements Widget {
   Point<int> computeRenderSize(BuildContext context);
 
   void build(BuildContext context);
+
+  void destroy(BuildContext context);
 }
 
 abstract class MultiChildRenderWidget implements Widget {
@@ -19,6 +21,8 @@ abstract class MultiChildRenderWidget implements Widget {
   Point<int> computeRenderSize(BuildContext context);
 
   void build(BuildContext context, void Function(Widget, BuildContext) render);
+
+  void destroy(BuildContext context);
 }
 
 abstract class StatelessWidget implements Widget {
