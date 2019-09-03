@@ -10,7 +10,7 @@ import 'durses.dart';
 class IoTerminal extends Terminal {
   final io.Stdin stdin;
   final io.Stdout stdout;
-  Uint8List _charBuf;
+  ByteData _charBuf;
   int _x = 0, _y = 0;
   // TODO: Handle SIGWINCH
   int _maxRows, _maxColumns;
@@ -35,12 +35,17 @@ class IoTerminal extends Terminal {
     });
   }
 
+  int get _currentIndex {
+    var p = cursorLocation;
+    return _charIndex(p.x, p.y);
+  }
+
   int _charIndex(int x, int y) {
     return (y * maxColumns) + x;
   }
 
   void _initCharBuffer() {
-    _charBuf ??= Uint8List(maxRows * maxColumns);
+    _charBuf ??= ByteData(maxRows * maxColumns);
   }
 
   void _moveCursorTo(int x, int y) {
@@ -72,7 +77,7 @@ class IoTerminal extends Terminal {
   @override
   int readChar(int x, int y) {
     _initCharBuffer();
-    return _charBuf[_charIndex(x, y)];
+    return _charBuf.getUint8(_charIndex(x, y));
   }
 
   @override
@@ -80,7 +85,7 @@ class IoTerminal extends Terminal {
     _moveCursorTo(x, y);
     stdout.writeCharCode(char);
     _initCharBuffer();
-    _charBuf[_charIndex(x, y)] = char;
+    _charBuf.setUint8(_charIndex(x, y), char);
   }
 
   @override
@@ -106,5 +111,66 @@ class IoTerminal extends Terminal {
   @override
   set cursorLocation(Point<int> value) {
     _moveCursorTo(value.x, value.y);
+  }
+
+  @override
+  void clearToEndOfLine() {
+    _initCharBuffer();
+    stdout.write('\u{1b}[K');
+    var loc = cursorLocation;
+    var startIndex = (loc.y * maxColumns) + loc.x;
+    var nextLineIndex = (loc.y + 1) * maxColumns;
+    for (var i = startIndex; i < nextLineIndex; i++) {
+      _charBuf.setUint8(i, 0);
+    }
+  }
+
+  @override
+  void clearToBeginningToLine() {
+    _initCharBuffer();
+    stdout.write('\u{1b}[1K');
+    var loc = cursorLocation;
+    var lineStartIndex = loc.y * maxColumns;
+    for (var i = lineStartIndex + loc.x; i >= lineStartIndex; i--) {
+      _charBuf.setUint8(i, 0);
+    }
+  }
+
+  @override
+  void clearCurrentLine() {
+    _initCharBuffer();
+    stdout.write('\u{1b}[2K');
+    var startIndex = cursorLocation.y * maxColumns;
+    for (var i = startIndex; i < _charBuf.lengthInBytes; i++) {
+      _charBuf.setUint8(i, 0);
+    }
+  }
+
+  @override
+  void clearToBottomOfScreen() {
+    _initCharBuffer();
+    stdout.write('\u{1b}[J');
+    for (var i = _currentIndex; i < _charBuf.lengthInBytes; i++) {
+      _charBuf.setUint8(i, 0);
+    }
+  }
+
+  @override
+  void clearToTopOfScreen() {
+    _initCharBuffer();
+    stdout.write('\u{1b}[1J');
+    var j = _currentIndex;
+    for (var i = _charBuf.lengthInBytes - 1; i >= j; i++) {
+      _charBuf.setUint8(i, 0);
+    }
+  }
+
+  @override
+  void clearEntireScreen() {
+    _initCharBuffer();
+    stdout.write('\u{1b}[2J');
+    for (var i = 0; i < _charBuf.lengthInBytes; i++) {
+      _charBuf.setUint8(i, 0);
+    }
   }
 }

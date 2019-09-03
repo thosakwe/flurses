@@ -37,4 +37,22 @@ abstract class Terminal {
   /// Updates the physical screen to be in sync with whatever
   /// reprsentation is in this class.
   void refresh();
+
+  /// Erases from the current cursor position to the end of the current line.
+  void clearToEndOfLine();
+
+  /// Erases from the current cursor position to the start of the current line.
+  void clearToBeginningToLine();
+
+  /// Erases the entire current line.
+  void clearCurrentLine();
+
+  /// Erases the screen from the current line down to the bottom of the screen.
+  void clearToBottomOfScreen();
+
+  /// Erases the screen from the current line up to the top of the screen.
+  void clearToTopOfScreen();
+
+  /// Erases the screen with the background colour and moves the cursor to home.
+  void clearEntireScreen();
 }

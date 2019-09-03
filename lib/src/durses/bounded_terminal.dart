@@ -47,4 +47,22 @@ class BoundedTerminal extends Terminal {
   set cursorLocation(Point<int> value) {
     inner.cursorLocation = Point(value.x + xOffset, value.y + yOffset);
   }
+
+  @override
+  void clearToEndOfLine() => inner.clearToEndOfLine();
+
+  @override
+  void clearToBeginningToLine() => inner.clearToBeginningToLine();
+
+  @override
+  void clearCurrentLine() => inner.clearCurrentLine();
+
+  @override
+  void clearToBottomOfScreen() => inner.clearToBottomOfScreen();
+
+  @override
+  void clearToTopOfScreen() => inner.clearToTopOfScreen();
+
+  @override
+  void clearEntireScreen() => inner.clearEntireScreen();
 }
