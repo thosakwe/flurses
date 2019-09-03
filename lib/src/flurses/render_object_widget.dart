@@ -1,6 +1,5 @@
 import 'dart:math';
-import 'build_context.dart';
-import 'widget.dart';
+import 'package:flurses/flurses.dart';
 
 abstract class RenderObjectWidget extends Widget {
   const RenderObjectWidget();
@@ -8,4 +7,8 @@ abstract class RenderObjectWidget extends Widget {
   Rectangle<int> computeBounds(BuildContext context);
 
   void render(BuildContext context, Rectangle<int> computedBounds);
+
+  @override
+  RenderTree accept(Renderer renderer, BuildContext context) =>
+      renderer.visitRenderObject(context, this);
 }

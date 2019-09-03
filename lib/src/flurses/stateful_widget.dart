@@ -1,9 +1,12 @@
+import 'package:flurses/flurses.dart';
 import 'package:meta/meta.dart';
-import 'build_context.dart';
-import 'widget.dart';
 
 abstract class StatefulWidget extends Widget {
   State createState();
+
+  @override
+  RenderTree accept(Renderer renderer, BuildContext context) =>
+      renderer.visitStateful(context, this);
 }
 
 abstract class State<T extends StatefulWidget> {
