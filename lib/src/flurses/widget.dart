@@ -1,3 +1,5 @@
 import 'build_context.dart';
 
-abstract class Widget {}
+abstract class Widget {
+  const Widget();
+}
