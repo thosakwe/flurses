@@ -13,7 +13,6 @@ class IoTerminal extends Terminal {
   ByteData _charBuf;
   int _x = 0, _y = 0;
   // TODO: Handle SIGWINCH
-  int _maxRows, _maxColumns;
 
   IoTerminal({io.Stdin stdin, io.Stdout stdout})
       : this.stdin = stdin ?? io.stdin,
@@ -76,10 +75,10 @@ class IoTerminal extends Terminal {
   }
 
   @override
-  int get maxRows => _maxRows ??= stdout.terminalLines;
+  int get maxRows => stdout.terminalLines;
 
   @override
-  int get maxColumns => _maxColumns ??= stdout.terminalColumns;
+  int get maxColumns => stdout.terminalColumns;
 
   @override
   void refresh() => null;
