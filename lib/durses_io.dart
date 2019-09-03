@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:io' as io;
+import 'dart:typed_data';
 import 'package:charcode/ascii.dart';
 import 'durses.dart';
 
@@ -8,11 +9,22 @@ import 'durses.dart';
 class IoTerminal implements Terminal {
   final io.Stdin stdin;
   final io.Stdout stdout;
+  Uint8List _charBuf;
   int _x = 0, _y = 0;
+  // TODO: Handle SIGWINCH
+  int _maxRows, _maxColumns;
 
   IoTerminal({io.Stdin stdin, io.Stdout stdout})
       : this.stdin = stdin ?? io.stdin,
         this.stdout = stdout = stdout ?? io.stdout;
+
+  int _charIndex(int x, int y) {
+    return (y * maxColumns) + x;
+  }
+
+  void _initCharBuffer() {
+    _charBuf ??= Uint8List(maxRows * maxColumns);
+  }
 
   void _moveCursorTo(int x, int y) {
     if (_y == y) {
@@ -32,29 +44,45 @@ class IoTerminal implements Terminal {
   }
 
   @override
-  int get maxRows => stdout.terminalLines;
+  int get maxRows => _maxRows ??= stdout.terminalLines;
 
   @override
-  int get maxColumns => stdout.terminalColumns;
+  int get maxColumns => _maxColumns ??= stdout.terminalColumns;
 
   @override
   void refresh() => null;
 
   @override
   int readChar(int x, int y) {
-    _moveCursorTo(x, y);
-    // TODO: Get char
+    _initCharBuffer();
+    return _charBuf[_charIndex(x, y)];
   }
 
   @override
   void writeChar(int x, int y, int char) {
     _moveCursorTo(x, y);
     stdout.writeCharCode(char);
+    _charBuf[_charIndex(x, y)] = char;
   }
 
   @override
   Point<int> get cursorLocation {
-    // TODO: Implement this
+    // Write ESC[6n - the terminal then writes ESC[n;mR
+    stdout.add([$esc, $lbracket, $6, $n]);
+    // TODO: Find a way to fail gracefully if invalid input is returned.
+    stdin..readByteSync()..readByteSync();
+    var nBuf = StringBuffer(), mBuf = StringBuffer();
+    var ch = stdin.readByteSync();
+    while (ch != $semicolon) {
+      nBuf.writeCharCode(ch);
+      ch = stdin.readByteSync();
+    }
+    while (ch != $R) {
+      mBuf.writeCharCode(ch);
+      ch = stdin.readByteSync();
+    }
+    // Parse the location.
+    return Point(int.parse(mBuf.toString()), int.parse(nBuf.toString()));
   }
 
   @override
