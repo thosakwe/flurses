@@ -1,3 +1,5 @@
+import 'dart:math';
+
 /// An abstraction over a terminal.
 ///
 /// Coordinates are zero-based.
@@ -14,6 +16,12 @@ abstract class Terminal {
 
   /// Writes a character at (x, y).
   void writeChar(int x, int y, int char);
+
+  /// Get the current location of the cursor.
+  Point<int> get cursorLocation;
+
+  /// Update the location of the cursor.
+  set cursorLocation(Point<int> value);
 
   /// Updates the physical screen to be in sync with whatever
   /// reprsentation is in this class.

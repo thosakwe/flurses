@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'terminal.dart';
 
 /// A [Terminal] implementation that handles a
@@ -35,4 +36,15 @@ class BoundedTerminal extends Terminal {
 
   @override
   void refresh() => inner.refresh();
+
+  @override
+  Point<int> get cursorLocation {
+    var point = inner.cursorLocation;
+    return Point(max(point.x - xOffset, 0), max(point.y - yOffset, 0));
+  }
+
+  @override
+  set cursorLocation(Point<int> value) {
+    inner.cursorLocation = Point(value.x + xOffset, value.y + yOffset);
+  }
 }
