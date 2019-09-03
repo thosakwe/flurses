@@ -5,3 +5,4 @@ environment:
 dependencies:
   charcode: ^1.0.0
   meta: ^1.0.0
+  tuple: ^1.0.0

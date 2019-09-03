@@ -5,6 +5,5 @@ import 'widget.dart';
 abstract class RenderObjectWidget extends Widget {
   Rectangle<int> computeBounds(BuildContext context);
 
-  void render(BuildContext context, Rectangle<int> computedBounds,
-      RenderResult Function(BuildContext, Widget) renderChild);
+  void render(BuildContext context, Rectangle<int> computedBounds);
 }
