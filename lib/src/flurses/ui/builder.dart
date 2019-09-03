@@ -1,7 +1,5 @@
+import 'package:flurses/flurses.dart';
 import 'package:meta/meta.dart';
-import 'build_context.dart';
-import 'stateless_widget.dart';
-import 'widget.dart';
 
 class Builder extends StatelessWidget {
   final Widget Function(BuildContext) builder;
