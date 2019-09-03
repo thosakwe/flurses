@@ -1,6 +1,9 @@
 import 'package:flurses/flurses.dart';
+import 'package:flurses/flurses_io.dart';
 
-main() {}
+main() {
+  runApp(HelloApp());
+}
 
 class HelloApp extends StatelessWidget {
   @override
