@@ -69,7 +69,7 @@ class IoTerminal extends Terminal {
       }
       _x = x;
     } else {
-      stdout.add([$esc, $lbracket, $0 + y + 1, $semicolon, $0 + x, $H]);
+      stdout.add([$esc, $lbracket, $0 + y + 1, $semicolon, $0 + x + 1, $H]);
       _y = y;
       _x = x;
     }
