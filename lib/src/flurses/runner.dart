@@ -16,8 +16,9 @@ class Runner {
     // TODO: Handle resize
   }
 
-  Future<void> run() async {
+  Future<void> run() {
     // TODO:
+    return Future(() async {}).whenComplete(close);
   }
 
   void close() {
