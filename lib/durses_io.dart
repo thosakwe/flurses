@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:io' as io;
 import 'dart:typed_data';
@@ -6,7 +7,7 @@ import 'durses.dart';
 
 /// A [Terminal] implementation that interacts with
 /// the current process's [Stdin] and [Stdout].
-class IoTerminal implements Terminal {
+class IoTerminal extends Terminal {
   final io.Stdin stdin;
   final io.Stdout stdout;
   Uint8List _charBuf;
@@ -18,6 +19,22 @@ class IoTerminal implements Terminal {
       : this.stdin = stdin ?? io.stdin,
         this.stdout = stdout = stdout ?? io.stdout;
 
+  /// Runs [f], and restores the previous `lineMode` and `echoMode`
+  /// of [stdin].
+  Future<T> run<T>(FutureOr<T> Function() f,
+      {bool lineMode = false, bool echoMode = false}) {
+    var oldLineMode = stdin.lineMode;
+    var oldEchoMode = stdin.echoMode;
+    return Future(() async {
+      stdin.echoMode = echoMode;
+      stdin.lineMode = lineMode;
+      return await f();
+    }).whenComplete(() {
+      stdin.lineMode = oldLineMode;
+      stdin.echoMode = oldEchoMode;
+    });
+  }
+
   int _charIndex(int x, int y) {
     return (y * maxColumns) + x;
   }
@@ -28,7 +45,7 @@ class IoTerminal implements Terminal {
 
   void _moveCursorTo(int x, int y) {
     if (_y == y) {
-      if (x > _x) {
+      if (x > _x + 1) {
         var diff = x - _x;
         stdout.add([$esc, $lbracket, $0 + diff, $C]);
       } else if (x < _x) {
@@ -62,6 +79,7 @@ class IoTerminal implements Terminal {
   void writeChar(int x, int y, int char) {
     _moveCursorTo(x, y);
     stdout.writeCharCode(char);
+    _initCharBuffer();
     _charBuf[_charIndex(x, y)] = char;
   }
 

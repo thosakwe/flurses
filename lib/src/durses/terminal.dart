@@ -17,6 +17,17 @@ abstract class Terminal {
   /// Writes a character at (x, y).
   void writeChar(int x, int y, int char);
 
+  /// Writes a string at (x, y).
+  /// This call will not horizontally overflow the screen,
+  /// so if the string is longer than the amount of remaining
+  /// horizontal space, it will be truncated.
+  void writeString(int x, int y, String str) {
+    var max = maxColumns - x;
+    for (int i = 0; i < str.length && i < max; i++) {
+      writeChar(x + i, y, str.codeUnitAt(i));
+    }
+  }
+
   /// Get the current location of the cursor.
   Point<int> get cursorLocation;
 
