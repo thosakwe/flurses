@@ -6,6 +6,8 @@ class Runner {
   // TODO: Wrap in a BufferedTerminal
   final Terminal terminal;
   final Widget app;
+  RenderTree _lastTree;
+  Renderer _renderer = Renderer();
   StreamSubscription _onResize;
 
   Runner(this.terminal, this.app, {Stream onResize}) {
@@ -16,9 +18,17 @@ class Runner {
     // TODO: Handle resize
   }
 
+  RenderTree redraw() {
+    var context = BuildContext(
+        terminal, terminal.maxRows, terminal.maxColumns, null, app);
+    return _lastTree = app.accept(_renderer, context);
+  }
+
   Future<void> run() {
     // TODO:
-    return Future(() async {}).whenComplete(close);
+    return Future(() async {
+      redraw();
+    }).whenComplete(close);
   }
 
   void close() {

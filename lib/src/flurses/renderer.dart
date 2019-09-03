@@ -1,19 +1,23 @@
-import 'package:flurses/durses.dart';
 import 'package:flurses/flurses.dart';
 
 class Renderer {
-  final Terminal terminal;
-  final Widget app;
-
-  Renderer(this.terminal, this.app);
-
   RenderTree visitRenderObject(
-      BuildContext context, RenderObjectWidget widget) {}
+      BuildContext context, RenderObjectWidget widget) {
+    var bounds = widget.computeBounds(context);
+    widget.render(context, bounds);
+    return SingleRenderTree(widget, context);
+  }
 
   RenderTree visitMultiChildRenderObject(
       BuildContext context, MultiChildRenderObjectWidget widget) {}
 
-  RenderTree visitStateless(BuildContext context, StatelessWidget widget) {}
+  RenderTree visitStateless(BuildContext context, StatelessWidget widget) {
+    var childContext = context.change(parent: context);
+    var child = widget.build(context);
+    // TODO: Handle null in build()?
+    return SingleRenderTree(widget, context,
+        child: child.accept(this, childContext));
+  }
 
   RenderTree visitStateful(BuildContext context, StatefulWidget widget) {}
 }
