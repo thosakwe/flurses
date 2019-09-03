@@ -1,10 +1,24 @@
 import 'terminal.dart';
 
+/// A [Terminal] implementation that handles a
+/// bounded region of an [inner] [Terminal].
+///
+/// This is analagous to *windows* in `curses` and
+/// `ncurses`.
 class BoundedTerminal extends Terminal {
+  /// The underlying [Terminal] implementation.
   final Terminal inner;
+
+  /// The horizontal offset.
   final int xOffset;
+
+  /// The vertical offset.
   final int yOffset;
+
+  /// The maximum height of the terminal.
   final int maxRows;
+
+  /// The maximum width of the terminal.
   final int maxColumns;
 
   BoundedTerminal(this.inner,
