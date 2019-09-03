@@ -21,17 +21,27 @@ class IoTerminal extends Terminal {
 
   /// Runs [f], and restores the previous `lineMode` and `echoMode`
   /// of [stdin].
+  ///
+  /// Will [clear] the screen by default, and also print a
+  /// [newlineAfterExit].
   Future<T> run<T>(FutureOr<T> Function() f,
-      {bool lineMode = false, bool echoMode = false}) {
+      {bool lineMode = false,
+      bool echoMode = false,
+      bool clear = true,
+      bool newlineAfterExit = true}) {
     var oldLineMode = stdin.lineMode;
     var oldEchoMode = stdin.echoMode;
     return Future(() async {
       stdin.echoMode = echoMode;
       stdin.lineMode = lineMode;
+      if (clear) clearEntireScreen();
       return await f();
     }).whenComplete(() {
       stdin.lineMode = oldLineMode;
       stdin.echoMode = oldEchoMode;
+      if (newlineAfterExit) {
+        stdout.writeln();
+      }
     });
   }
 
@@ -51,7 +61,7 @@ class IoTerminal extends Terminal {
   void _moveCursorTo(int x, int y) {
     if (_y == y) {
       if (x > _x + 1) {
-        var diff = x - _x;
+        var diff = x - _x + 1;
         stdout.add([$esc, $lbracket, $0 + diff, $C]);
       } else if (x < _x) {
         var diff = _x - x;
@@ -59,7 +69,7 @@ class IoTerminal extends Terminal {
       }
       _x = x;
     } else {
-      stdout.add([$esc, $lbracket, $0 + y, $semicolon, $0 + x, $H]);
+      stdout.add([$esc, $lbracket, $0 + y + 1, $semicolon, $0 + x, $H]);
       _y = y;
       _x = x;
     }
@@ -100,6 +110,7 @@ class IoTerminal extends Terminal {
       nBuf.writeCharCode(ch);
       ch = stdin.readByteSync();
     }
+    ch = stdin.readByteSync();
     while (ch != $R) {
       mBuf.writeCharCode(ch);
       ch = stdin.readByteSync();
@@ -173,4 +184,7 @@ class IoTerminal extends Terminal {
       _charBuf.setUint8(i, 0);
     }
   }
+
+  @override
+  int readKey() => stdin.readByteSync();
 }

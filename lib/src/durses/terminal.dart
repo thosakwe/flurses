@@ -55,4 +55,7 @@ abstract class Terminal {
 
   /// Erases the screen with the background colour and moves the cursor to home.
   void clearEntireScreen();
+
+  /// Get the next key entered by the user.
+  int readKey();
 }

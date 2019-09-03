@@ -65,4 +65,7 @@ class BoundedTerminal extends Terminal {
 
   @override
   void clearEntireScreen() => inner.clearEntireScreen();
+
+  @override
+  int readKey() => inner.readKey();
 }
