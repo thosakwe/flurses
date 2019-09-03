@@ -187,4 +187,16 @@ class IoTerminal extends Terminal {
 
   @override
   int readKey() => stdin.readByteSync();
+
+  @override
+  void reset() => stdout.write('\u{1b}c');
+
+  @override
+  set title(String title) => stdout.write('\u{1b}]0;$title\u{07}');
+
+  @override
+  void showCursor() => stdout.write('\u{1b}[?25h');
+
+  @override
+  void hideCursor() => stdout.write('\u{1b}[?25l');
 }

@@ -68,4 +68,16 @@ class BoundedTerminal extends Terminal {
 
   @override
   int readKey() => inner.readKey();
+
+  @override
+  void reset() => inner.reset();
+
+  @override
+  set title(String title) => inner.title = title;
+
+  @override
+  void showCursor() => inner.showCursor();
+
+  @override
+  void hideCursor() => inner.hideCursor();
 }

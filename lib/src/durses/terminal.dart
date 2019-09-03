@@ -58,4 +58,16 @@ abstract class Terminal {
 
   /// Get the next key entered by the user.
   int readKey();
+
+  /// Reset all terminal settings to default.
+  void reset();
+
+  /// Sets the title of the terminal.
+  set title(String title);
+
+  /// Start showing the cursor on the screen.
+  void showCursor();
+
+  /// Stop showing the cursor on the screen.
+  void hideCursor();
 }
