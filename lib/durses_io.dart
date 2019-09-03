@@ -22,13 +22,13 @@ class IoTerminal extends Terminal {
   /// Runs [f], and restores the previous `lineMode` and `echoMode`
   /// of [stdin].
   ///
-  /// Will [clear] the screen by default, and also print a
-  /// [newlineAfterExit].
+  /// Will [clear] the screen by default, and also
+  /// [resetAfterExit].
   Future<T> run<T>(FutureOr<T> Function() f,
       {bool lineMode = false,
       bool echoMode = false,
       bool clear = true,
-      bool newlineAfterExit = true}) {
+      bool resetAfterExit = true}) {
     var oldLineMode = stdin.lineMode;
     var oldEchoMode = stdin.echoMode;
     return Future(() async {
@@ -39,8 +39,8 @@ class IoTerminal extends Terminal {
     }).whenComplete(() {
       stdin.lineMode = oldLineMode;
       stdin.echoMode = oldEchoMode;
-      if (newlineAfterExit) {
-        stdout.writeln();
+      if (resetAfterExit) {
+        reset();
       }
     });
   }
