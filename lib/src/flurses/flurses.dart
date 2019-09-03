@@ -5,6 +5,7 @@ export 'multi_child_render_object_widget.dart';
 export 'render_object_widget.dart';
 export 'renderer.dart';
 export 'render_tree.dart';
+export 'runner.dart';
 export 'stateful_widget.dart';
 export 'stateless_widget.dart';
 export 'widget.dart';
